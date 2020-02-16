@@ -1,26 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
+import Lobby from './Lobby';
+import PlayerModel from './models/PlayerModel';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () => {
+    const players: PlayerModel[] = [new PlayerModel('Joe'), new PlayerModel('Joe'), new PlayerModel('Joe'), new PlayerModel('Joe')];
+
+    return <div className="App">
+        <Lobby players={players} />
     </div>
-  );
-}
+};
 
 export default App;
