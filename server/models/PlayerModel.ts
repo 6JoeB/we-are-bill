@@ -4,7 +4,7 @@ import { Schema, type } from "@colyseus/schema";
 class Player extends Schema {
     @type("string")
     userName: string = "Jeremy";
-    @type("string")
+    @type("number")
     role: Role = Role.Standard;
 }
 
