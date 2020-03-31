@@ -4,34 +4,36 @@ import Player from '../models/PlayerModel';
 import Colyseus from "colyseus.js";
 import './App.css';
 import State from "../../server/models/StateModel"
-let client = new Colyseus.Client("ws://localhost:2657");
 
-let room: Colyseus.Room<State>;
 const App = () => {
     useEffect(() => {
         async function asyncRoom() {
-            room = await client.joinOrCreate<State>("game");
+            const client = new Colyseus.Client("ws://localhost:2657");
+            const room = await client.joinOrCreate<State>("game");
+
+            room.state.players.onAdd = (player: Player, i) => {
+                console.log("player joined!", player);
+            };
+
+            room.state.players.onRemove = (player: Player, i) => {
+                console.log("player left!", player);
+            };
+
+            room.onStateChange((state: State) => {
+                setPlayers(Object.values(state.players));
+                console.log(`${room.sessionId} has a new state:`, state);
+            });
+
+            setRoom(room);
         }
-        asyncRoom(); 
-    })
 
-    const [players, setPlayers] = useState <Player[]>([]);
+        asyncRoom();
+    }, []);
 
-    // const room = await client.joinOrCreate<State>("game");
-    console.log("joined successfully", room.sessionId);
+    const [room, setRoom] = useState<Colyseus.Room>();
+    const [players, setPlayers] = useState<Player[]>([]);
 
-    room.state.players.onAdd = function (player: Player, i) {
-        console.log("player joined!", player);
-    }
-
-    room.state.players.onRemove = function (player: Player, i) {
-        console.log("player left!", player);
-    }
-
-    room.onStateChange((state: State) => {
-        setPlayers(Object.values(state.players));
-        console.log(`${room.sessionId} has a new state:`, state);
-    })
+    console.log("joined successfully", room?.sessionId);
 
     return <div className="App">
         <Lobby players={players} />
