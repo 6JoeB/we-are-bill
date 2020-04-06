@@ -6,6 +6,8 @@ class Player extends Schema {
     userName: string = "Jeremy";
     @type("number")
     role: Role = Role.Standard;
+    @type("boolean")
+    ready: boolean = false;
 }
 
 export default Player;

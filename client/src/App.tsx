@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Lobby from './Lobby';
-import Player from '../models/PlayerModel';
+import Player from '../../server/models/PlayerModel';
 import { Client, Room } from "colyseus.js";
 import './App.css';
 import State from "../../server/models/StateModel"
@@ -21,6 +21,7 @@ const App = () => {
 
             room.onStateChange((state: State) => {
                 setPlayers(Object.values(state.players));
+                setPhase(state.currentPhase);
                 console.log(`${room.sessionId} has a new state:`, state);
             });
 
@@ -30,17 +31,25 @@ const App = () => {
         asyncRoom();
     }, []);
 
-    const [room, setRoom] = useState<Room>();
+    const [room, setRoom] = useState<Room<State>>(new Room<State>(""));
     const [players, setPlayers] = useState<Player[]>([]);
+    const [phase, setPhase] = useState<string>("Lobby");
 
     console.log("joined successfully", room?.sessionId);
+    let content;
+    switch (phase)
+    {
+        case "Lobby" :
+        content = <Lobby players={players} room={room}/>
+        break;
+        
+        case "storytellerPick" :
+        /* <StorytellerPick players={players} room={room}/> */
+        content = <h1>wagwan storyteller picking time</h1>
+        break;
+    }
 
-    const setName = () => room?.send({ action: "PLAYER_SET_NAME", data: { name: "lol" } });
-
-    return <div className="App">
-        <Lobby players={players} />
-        <button onClick={() => setName()}>Set name to lol</button>
-    </div>
+    return <div className="App">{content}</div>
 };
 
 export default App;
