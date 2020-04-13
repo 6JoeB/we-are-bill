@@ -4,16 +4,19 @@ import { Room } from "colyseus.js";
 import State from '../../server/models/StateModel';
 
 const Lobby = ({players, room}: {players: Player[], room: Room<State>}) => {
-    const readyUp = () => {room?.send({ action: "PLAYER_READY"});}
+    const readyUp = () => room.send({ action: "PLAYER_READY"});
+
     return <>
         <h2>Lobby</h2>
         <ul id="players">
         {
-            players.map(player => <> <p key={player.userName} className="player-user-name">{player.userName}</p> 
-            <button onClick={readyUp} disabled={player.ready}>Ready?</button>  </>)
+            players.map(player => <> <p style={{color: player.ready ? 'green' : 'red'}} key={player.userName} className="player-user-name">{player.userName}</p></>)
         }
         </ul>
+        <button onClick={readyUp}>Ready?</button>
     </>
 };
 
 export default Lobby;
+
+//as React.CSSProperties;

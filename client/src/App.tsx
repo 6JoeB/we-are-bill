@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Lobby from './Lobby';
+import Storyteller from './Storyteller';
 import Player from '../../server/models/PlayerModel';
 import { Client, Room } from "colyseus.js";
 import './App.css';
@@ -22,6 +23,9 @@ const App = () => {
             room.onStateChange((state: State) => {
                 setPlayers(Object.values(state.players));
                 setPhase(state.currentPhase);
+                if (state.storytellerId !== "") {
+                setStoryteller(state.players[state.storytellerId]);
+                }
                 console.log(`${room.sessionId} has a new state:`, state);
             });
 
@@ -32,8 +36,10 @@ const App = () => {
     }, []);
 
     const [room, setRoom] = useState<Room<State>>(new Room<State>(""));
+    
     const [players, setPlayers] = useState<Player[]>([]);
     const [phase, setPhase] = useState<string>("Lobby");
+    const [storyteller, setStoryteller] = useState<Player>();
 
     console.log("joined successfully", room?.sessionId);
     let content;
@@ -44,8 +50,12 @@ const App = () => {
         break;
         
         case "storytellerPick" :
-        /* <StorytellerPick players={players} room={room}/> */
-        content = <h1>wagwan storyteller picking time</h1>
+        content = <Storyteller players={players} room={room}/>
+        break;
+
+        case "playing" :
+        console.log(phase);
+        console.log(storyteller);
         break;
     }
 
