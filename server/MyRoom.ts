@@ -1,6 +1,7 @@
 import { Room, Client } from "colyseus";
 import State from "./models/StateModel"
 import Player from "./models/PlayerModel"
+import { Role } from "./Enums";
 
 export class MyRoom extends Room<State> {
 
@@ -18,8 +19,9 @@ export class MyRoom extends Room<State> {
         const players: Array<Player> = Object.values(this.state.players);
 
         switch (message.action) {
-            case "PLAYER_SET_NAME": {
+            case "PLAYER_SET_USERNAME": {
                 player.userName = message.data.name;
+                console.log("player set name recieved")
                 break;
             }
             case "PLAYER_READY": {
@@ -39,8 +41,9 @@ export class MyRoom extends Room<State> {
                 if (players.every(player => player.storytellerOptedIn !== undefined)) 
                 {
                     const optedInPlayers: Array<string> = players.filter(player => player.storytellerOptedIn).map(player => player.id);
-                    this.state.storytellerId = optedInPlayers[Math.floor(Math.random() * optedInPlayers.length)];
-                    this.state.currentPhase = "playing";
+                    const storytellerId = optedInPlayers[Math.floor(Math.random() * optedInPlayers.length)];
+                    this.state.players[storytellerId].role = Role.Storyteller;
+                    this.state.currentPhase = "goalPick";
                 }
                 break;
             }
@@ -51,10 +54,25 @@ export class MyRoom extends Room<State> {
                 if (players.every(player => player.storytellerOptedIn !== undefined)) 
                 {
                     const optedInPlayers: Array<string> = players.filter(player => player.storytellerOptedIn).map(player => player.id);
-                    this.state.storytellerId = optedInPlayers[Math.floor(Math.random() * optedInPlayers.length)];
+                    const storytellerId = optedInPlayers[Math.floor(Math.random() * optedInPlayers.length)];
+                    this.state.players[storytellerId].role = Role.Storyteller;
+                    this.state.currentPhase = "goalPick";
+                }
+                break;
+            }
+
+            case "GOAL_SET": {
+                player.goal = message.data.goal;
+
+                if (players.every(player => player.goal || player.role === Role.Storyteller))
+                {
                     this.state.currentPhase = "playing";
                 }
                 break;
+            }
+
+            default : {
+                console.log("ye nah ye nah broken");
             }
         }
     }

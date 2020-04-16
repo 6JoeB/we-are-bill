@@ -12,6 +12,8 @@ class Player extends Schema {
     ready: boolean = false;
     @type("boolean")
     storytellerOptedIn: boolean | undefined;
+    @type("string")
+    goal: string | undefined;
 
     constructor(id: string) {
         super();

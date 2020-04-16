@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Lobby from './Lobby';
 import Storyteller from './Storyteller';
+import GoalPick from './GoalPick';
 import Player from '../../server/models/PlayerModel';
 import { Client, Room } from "colyseus.js";
 import './App.css';
@@ -23,9 +24,7 @@ const App = () => {
             room.onStateChange((state: State) => {
                 setPlayers(Object.values(state.players));
                 setPhase(state.currentPhase);
-                if (state.storytellerId !== "") {
-                setStoryteller(state.players[state.storytellerId]);
-                }
+                setCurrentPlayer(state.players[room.sessionId]);
                 console.log(`${room.sessionId} has a new state:`, state);
             });
 
@@ -39,24 +38,28 @@ const App = () => {
     
     const [players, setPlayers] = useState<Player[]>([]);
     const [phase, setPhase] = useState<string>("Lobby");
-    const [storyteller, setStoryteller] = useState<Player>();
+    const [currentPlayer, setCurrentPlayer] = useState<Player>();
 
     console.log("joined successfully", room?.sessionId);
     let content;
     switch (phase)
     {
-        case "Lobby" :
-        content = <Lobby players={players} room={room}/>
-        break;
+        case "Lobby":
+            content = <Lobby players={players} room={room}/>
+            break;
         
-        case "storytellerPick" :
-        content = <Storyteller players={players} room={room}/>
-        break;
+        case "storytellerPick":
+            content = <Storyteller players={players} room={room}/>
+            break;
 
-        case "playing" :
-        console.log(phase);
-        console.log(storyteller);
-        break;
+        case "goalPick":
+            content = <GoalPick players={players} room={room} currentPlayer={currentPlayer!}/>
+            break;
+
+        case "playing":
+            content = <h1>playing</h1>
+            console.log(phase);
+            break;
     }
 
     return <div className="App">{content}</div>

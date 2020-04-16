@@ -7,9 +7,7 @@ class State extends Schema {
     @type({ map: Player }) 
     players = new MapSchema();
     @type("string") 
-    currentPhase: string = "Lobby"; // Lobby, storytellerPick, playing
-    @type("string")
-    storytellerId: string = "";
+    currentPhase: string = "Lobby"; // Lobby, storytellerPick, goalPick, playing
 }
 
 export default State;
