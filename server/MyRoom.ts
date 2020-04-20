@@ -1,13 +1,13 @@
 import { Room, Client } from "colyseus";
 import State from "./models/StateModel"
 import Player from "./models/PlayerModel"
-import { Role } from "./Enums";
-import { Phase } from "./Enums";
+import { Role, Phase } from "./Enums";
 
 export class MyRoom extends Room<State> {
 
     onCreate(options: any) {
         this.setState(new State());
+        console.log("state set");
     }
 
     onJoin(client: Client, options: any) {
@@ -68,6 +68,20 @@ export class MyRoom extends Room<State> {
                 if (players.every(player => player.goal || player.role === Role.Storyteller))
                 {
                     this.state.currentPhase = Phase.Playing;
+
+                    const locations: Array<string> = ["Mcdonalds", "The mean streets of Peterborough", "Makers Treehouse", "The Moon"];
+                    this.state.startingLocation = locations[Math.floor(Math.random() * locations.length)];
+                    console.log("current location is now " + this.state.startingLocation);
+
+                    while(players.every(player => !player.hasWon))
+                    {
+                        for(let i = 0; i < players.length; i++){
+                            players[i].role = Role.Bill;
+
+                            
+                            players[i].role = Role.Standard;
+                        }
+                    }
                 }
                 break;
             }

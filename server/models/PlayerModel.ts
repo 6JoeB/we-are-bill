@@ -14,6 +14,8 @@ class Player extends Schema {
     storytellerOptedIn: boolean | undefined;
     @type("string")
     goal: string | undefined;
+    @type("boolean")
+    hasWon: boolean = false;
 
     constructor(id: string) {
         super();
