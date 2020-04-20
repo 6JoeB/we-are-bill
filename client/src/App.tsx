@@ -6,6 +6,7 @@ import Player from '../../server/models/PlayerModel';
 import { Client, Room } from "colyseus.js";
 import './App.css';
 import State from "../../server/models/StateModel"
+import { Phase } from "./Enums";
 
 const App = () => {
     useEffect(() => {
@@ -37,26 +38,27 @@ const App = () => {
     const [room, setRoom] = useState<Room<State>>(new Room<State>(""));
     
     const [players, setPlayers] = useState<Player[]>([]);
-    const [phase, setPhase] = useState<string>("Lobby");
+    const [phase, setPhase] = useState<Phase>(Phase.Lobby);
     const [currentPlayer, setCurrentPlayer] = useState<Player>();
 
     console.log("joined successfully", room?.sessionId);
     let content;
     switch (phase)
     {
-        case "Lobby":
+        case Phase.Lobby:
             content = <Lobby players={players} room={room}/>
             break;
         
-        case "storytellerPick":
+        case Phase.StorytellerPick:
             content = <Storyteller players={players} room={room}/>
             break;
 
-        case "goalPick":
+        case Phase.GoalPick:
             content = <GoalPick players={players} room={room} currentPlayer={currentPlayer!}/>
             break;
 
-        case "playing":
+        case Phase.Playing:
+            
             content = <h1>playing</h1>
             console.log(phase);
             break;

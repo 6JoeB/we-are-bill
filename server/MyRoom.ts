@@ -2,6 +2,7 @@ import { Room, Client } from "colyseus";
 import State from "./models/StateModel"
 import Player from "./models/PlayerModel"
 import { Role } from "./Enums";
+import { Phase } from "./Enums";
 
 export class MyRoom extends Room<State> {
 
@@ -30,7 +31,7 @@ export class MyRoom extends Room<State> {
 
                 if (players.every(player => player.ready))
                 {
-                    this.state.currentPhase = "storytellerPick";
+                    this.state.currentPhase = Phase.StorytellerPick;
                     console.log(this.state.currentPhase);
                 }
                 break;
@@ -43,7 +44,7 @@ export class MyRoom extends Room<State> {
                     const optedInPlayers: Array<string> = players.filter(player => player.storytellerOptedIn).map(player => player.id);
                     const storytellerId = optedInPlayers[Math.floor(Math.random() * optedInPlayers.length)];
                     this.state.players[storytellerId].role = Role.Storyteller;
-                    this.state.currentPhase = "goalPick";
+                    this.state.currentPhase = Phase.GoalPick;
                 }
                 break;
             }
@@ -56,7 +57,7 @@ export class MyRoom extends Room<State> {
                     const optedInPlayers: Array<string> = players.filter(player => player.storytellerOptedIn).map(player => player.id);
                     const storytellerId = optedInPlayers[Math.floor(Math.random() * optedInPlayers.length)];
                     this.state.players[storytellerId].role = Role.Storyteller;
-                    this.state.currentPhase = "goalPick";
+                    this.state.currentPhase = Phase.GoalPick;
                 }
                 break;
             }
@@ -66,10 +67,12 @@ export class MyRoom extends Room<State> {
 
                 if (players.every(player => player.goal || player.role === Role.Storyteller))
                 {
-                    this.state.currentPhase = "playing";
+                    this.state.currentPhase = Phase.Playing;
                 }
                 break;
             }
+
+            
 
             default : {
                 console.log("ye nah ye nah broken");
