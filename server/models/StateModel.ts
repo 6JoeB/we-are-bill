@@ -11,6 +11,8 @@ class State extends Schema {
     currentPhase: Phase = Phase.Lobby; // Lobby, storytellerPick, goalPick, playing
     @type("string")
     startingLocation: string | undefined;
+    @type("string")
+    lastAction: string = "";
 }
 
 export default State;

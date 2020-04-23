@@ -16,6 +16,8 @@ class Player extends Schema {
     goal: string | undefined;
     @type("boolean")
     hasWon: boolean = false;
+    @type("int8")
+    lastActionDifficultyVote: number | undefined;
 
     constructor(id: string) {
         super();

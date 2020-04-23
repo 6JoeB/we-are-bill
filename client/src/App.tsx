@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Lobby from './Lobby';
 import Storyteller from './Storyteller';
 import GoalPick from './GoalPick';
+import Playing from './Playing';
 import Player from '../../server/models/PlayerModel';
 import { Client, Room } from "colyseus.js";
 import './App.css';
@@ -58,8 +59,7 @@ const App = () => {
             break;
 
         case Phase.Playing:
-            
-            content = <h1>playing</h1>
+            content = <Playing players={players} room={room} currentPlayer={currentPlayer!}/>
             console.log(phase);
             break;
     }

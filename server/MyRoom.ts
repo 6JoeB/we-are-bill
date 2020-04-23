@@ -7,6 +7,30 @@ export class MyRoom extends Room<State> {
 
     onCreate(options: any) {
         this.setState(new State());
+        this.state.listen("currentPhase", (value: Phase, previousValue: Phase) => {
+            if (value === Phase.Playing) {
+                const locations: Array<string> = ["Mcdonalds", "The mean streets of Peterborough", "Makers Treehouse", "The Moon"];
+                this.state.startingLocation = locations[Math.floor(Math.random() * locations.length)];
+                console.log("current location is now " + this.state.startingLocation);
+
+                const players: Array<Player> = Object.values(this.state.players);
+
+                while(!players.some(player => player.hasWon))
+                {
+                    for(let i = 0; i < players.length; i++){
+                        const player = this.state.players[players[i].id]
+                        player.role = Role.Bill;
+
+                        
+                        
+                        if (player.hasWon) {
+                            break;
+                        }
+                        player.role = Role.Standard;
+                    }
+                }
+            }
+        });
         console.log("state set");
     }
 
@@ -68,20 +92,6 @@ export class MyRoom extends Room<State> {
                 if (players.every(player => player.goal || player.role === Role.Storyteller))
                 {
                     this.state.currentPhase = Phase.Playing;
-
-                    const locations: Array<string> = ["Mcdonalds", "The mean streets of Peterborough", "Makers Treehouse", "The Moon"];
-                    this.state.startingLocation = locations[Math.floor(Math.random() * locations.length)];
-                    console.log("current location is now " + this.state.startingLocation);
-
-                    while(players.every(player => !player.hasWon))
-                    {
-                        for(let i = 0; i < players.length; i++){
-                            players[i].role = Role.Bill;
-
-                            
-                            players[i].role = Role.Standard;
-                        }
-                    }
                 }
                 break;
             }
@@ -92,6 +102,8 @@ export class MyRoom extends Room<State> {
                 console.log("ye nah ye nah broken");
             }
         }
+
+        this.state.triggerAll();
     }
 
     onLeave(client: Client, consented: boolean) {

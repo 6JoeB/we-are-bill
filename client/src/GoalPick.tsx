@@ -27,10 +27,10 @@ const GoalPick  = ({players, room, currentPlayer}: {players: Player[], room: Roo
     </ul>
 
     {currentPlayer.role === Role.Standard && 
-    <>
-        <input placeholder="Enter goal" value={goal} onChange={handleGoalChange}/>
-        <button onClick={handleGoalSubmit} disabled={!!currentPlayer.goal} >submit</button>
-    </>
+        <>
+            <input placeholder="Enter goal" value={goal} onChange={handleGoalChange}/>
+            <button onClick={handleGoalSubmit} disabled={!!currentPlayer.goal}>Submit</button>
+        </>
     }
     </>
 }
