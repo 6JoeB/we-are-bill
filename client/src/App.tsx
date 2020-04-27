@@ -59,8 +59,8 @@ const App = () => {
             break;
 
         case Phase.Playing:
-            content = <Playing players={players} room={room} currentPlayer={currentPlayer!}/>
             console.log(phase);
+            content = <Playing players={players} room={room} currentPlayer={currentPlayer!}/>
             break;
     }
 

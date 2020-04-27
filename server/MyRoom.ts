@@ -1,34 +1,71 @@
 import { Room, Client } from "colyseus";
 import State from "./models/StateModel"
 import Player from "./models/PlayerModel"
-import { Role, Phase } from "./Enums";
+import { Role, Phase, PlayingPhase } from "./Enums";
 
 export class MyRoom extends Room<State> {
 
     onCreate(options: any) {
         this.setState(new State());
-        this.state.listen("currentPhase", (value: Phase, previousValue: Phase) => {
+        this.state.listen("currentPhase", async (value: Phase, previousValue: Phase) => {
             if (value === Phase.Playing) {
                 const locations: Array<string> = ["Mcdonalds", "The mean streets of Peterborough", "Makers Treehouse", "The Moon"];
                 this.state.startingLocation = locations[Math.floor(Math.random() * locations.length)];
                 console.log("current location is now " + this.state.startingLocation);
+                const players: ()=>Array<Player> = () => Object.values(this.state.players);
 
-                const players: Array<Player> = Object.values(this.state.players);
+                const playingLoop = async() => {
+                    while(!players().some(player => player.hasWon))
+                    {
+                        let i = 0;
+                        while(i < players().length) {
+                            const player = this.state.players[players()[i].id] //gets player whose turn it is to be Bill
+                            player.role = Role.Bill; //sets player role to bill
 
-                while(!players.some(player => player.hasWon))
-                {
-                    for(let i = 0; i < players.length; i++){
-                        const player = this.state.players[players[i].id]
-                        player.role = Role.Bill;
+                            while (this.state.lastAction === "") {
 
-                        
-                        
-                        if (player.hasWon) {
-                            break;
+                            } //waits for Bill to enter action
+                            this.state.playingPhase = PlayingPhase.VoteOnAction;
+
+                            while (!players().every(player => player.lastActionDifficultyVote || player.role === Role.Bill)) {
+
+                            } //waits for all players to vote on difficulty of action
+                            this.state.playingPhase = PlayingPhase.RollOnAction;
+
+                            while (this.state.diceRollResult === 0){
+
+                            }
+                            
+                            const actionDifficultyTotal: number = players().filter(player => player.role !== Role.Bill)
+                                                                    .map(player => player.lastActionDifficultyVote)
+                                                                    .reduce((total, difficulty) => total! + difficulty!)!;
+                            const actionDifficulty: number = Math.round((actionDifficultyTotal/(players.length - 1)));
+
+                            if (this.state.diceRollResult < actionDifficulty) {
+                                i++;
+                            }
+                            else {
+                                while(this.state.billAchievedGoal === undefined) {
+
+                                }
+                                player.hasWon = this.state.billAchievedGoal;
+                                if (player.hasWon) {
+                                    break;
+                                }
+                            }
+                            
+                            this.state.resetPlayingState();
+                            player.role = Role.Standard;
+                            
+                            for (let j = 0; j < players().length; j++) {
+                                this.state.players[players()[j].id].lastActionDifficultyVote = undefined;
+                            } //set all players last action difficulty vote back to undefined so the wait loop still works
+                            
                         }
-                        player.role = Role.Standard;
                     }
+                    playingLoop();
                 }
+        
             }
         });
         console.log("state set");
@@ -96,7 +133,15 @@ export class MyRoom extends Room<State> {
                 break;
             }
 
-            
+            case "DIFFICULTY_SET": {
+                player.lastActionDifficultyVote = message.data.difficulty;
+            }
+
+            case "DICE_ROLL": {
+                this.state.diceRollResult = Math.floor(Math.random() * 6);
+                console.log(this.state.diceRollResult);
+                break;
+            }
 
             default : {
                 console.log("ye nah ye nah broken");

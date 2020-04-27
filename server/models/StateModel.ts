@@ -1,10 +1,8 @@
 import { Schema, MapSchema, type } from "@colyseus/schema";
 import Player from "./PlayerModel";
-import { Phase } from "../Enums";
+import { Phase, PlayingPhase } from "../Enums";
 
 class State extends Schema {
-    @type("string") 
-    currentTurn: string | undefined;
     @type({ map: Player }) 
     players = new MapSchema();
     @type("number") 
@@ -13,6 +11,19 @@ class State extends Schema {
     startingLocation: string | undefined;
     @type("string")
     lastAction: string = "";
+    @type("int8")
+    diceRollResult: number = 0;
+    @type("number")
+    playingPhase: PlayingPhase = PlayingPhase.ChooseAction;
+    @type("boolean")
+    billAchievedGoal: boolean | undefined;
+
+    resetPlayingState() {
+        this.lastAction = "";
+        this.diceRollResult = 0;
+        this.playingPhase = PlayingPhase.ChooseAction;
+        this.billAchievedGoal = undefined;
+    }
 }
 
 export default State;

@@ -10,3 +10,9 @@ export enum Phase {
     GoalPick,
     Playing
 }
+
+export enum PlayingPhase {
+    ChooseAction,
+    VoteOnAction,
+    RollOnAction
+}
