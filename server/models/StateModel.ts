@@ -15,14 +15,16 @@ class State extends Schema {
     diceRollResult: number = 0;
     @type("number")
     playingPhase: PlayingPhase = PlayingPhase.ChooseAction;
-    @type("boolean")
-    billAchievedGoal: boolean | undefined;
+    @type("int8")
+    actionDifficulty: number = 0;
+    @type("string")
+    winningPlayer: string = "";
+
 
     resetPlayingState() {
         this.lastAction = "";
         this.diceRollResult = 0;
         this.playingPhase = PlayingPhase.ChooseAction;
-        this.billAchievedGoal = undefined;
     }
 }
 

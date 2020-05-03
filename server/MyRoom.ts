@@ -4,6 +4,8 @@ import Player from "./models/PlayerModel"
 import { Role, Phase, PlayingPhase } from "./Enums";
 
 export class MyRoom extends Room<State> {
+    currentBillNumber = 0;
+    playerOrder: string[] = [];
 
     onCreate(options: any) {
         this.setState(new State());
@@ -12,60 +14,16 @@ export class MyRoom extends Room<State> {
                 const locations: Array<string> = ["Mcdonalds", "The mean streets of Peterborough", "Makers Treehouse", "The Moon"];
                 this.state.startingLocation = locations[Math.floor(Math.random() * locations.length)];
                 console.log("current location is now " + this.state.startingLocation);
-                const players: ()=>Array<Player> = () => Object.values(this.state.players);
 
-                const playingLoop = async() => {
-                    while(!players().some(player => player.hasWon))
-                    {
-                        let i = 0;
-                        while(i < players().length) {
-                            const player = this.state.players[players()[i].id] //gets player whose turn it is to be Bill
-                            player.role = Role.Bill; //sets player role to bill
+                this.playerOrder = Object.values(this.state.players)
+                .filter(player => player.role != Role.Storyteller)
+                .map(player => player.id);
 
-                            while (this.state.lastAction === "") {
-
-                            } //waits for Bill to enter action
-                            this.state.playingPhase = PlayingPhase.VoteOnAction;
-
-                            while (!players().every(player => player.lastActionDifficultyVote || player.role === Role.Bill)) {
-
-                            } //waits for all players to vote on difficulty of action
-                            this.state.playingPhase = PlayingPhase.RollOnAction;
-
-                            while (this.state.diceRollResult === 0){
-
-                            }
-                            
-                            const actionDifficultyTotal: number = players().filter(player => player.role !== Role.Bill)
-                                                                    .map(player => player.lastActionDifficultyVote)
-                                                                    .reduce((total, difficulty) => total! + difficulty!)!;
-                            const actionDifficulty: number = Math.round((actionDifficultyTotal/(players.length - 1)));
-
-                            if (this.state.diceRollResult < actionDifficulty) {
-                                i++;
-                            }
-                            else {
-                                while(this.state.billAchievedGoal === undefined) {
-
-                                }
-                                player.hasWon = this.state.billAchievedGoal;
-                                if (player.hasWon) {
-                                    break;
-                                }
-                            }
-                            
-                            this.state.resetPlayingState();
-                            player.role = Role.Standard;
-                            
-                            for (let j = 0; j < players().length; j++) {
-                                this.state.players[players()[j].id].lastActionDifficultyVote = undefined;
-                            } //set all players last action difficulty vote back to undefined so the wait loop still works
-                            
-                        }
-                    }
-                    playingLoop();
-                }
-        
+                console.log(this.playerOrder);
+                console.log(this.currentBillNumber);
+                console.log(Object.values(this.state.players)
+                .filter(player => player.role != Role.Storyteller));
+                this.state.players[this.playerOrder[this.currentBillNumber]].role = Role.Bill;
             }
         });
         console.log("state set");
@@ -73,6 +31,19 @@ export class MyRoom extends Room<State> {
 
     onJoin(client: Client, options: any) {
         this.state.players[client.sessionId] = new Player(client.sessionId);
+    }
+
+    changeCurrentBillNumber() {
+        this.state.players[this.playerOrder[this.currentBillNumber]].role = Role.Standard;
+
+        if(this.currentBillNumber === (this.playerOrder.length - 1)) {
+            this.currentBillNumber = 0;
+        }
+        else {
+            this.currentBillNumber++;
+        }
+
+        this.state.players[this.playerOrder[this.currentBillNumber]].role = Role.Bill;
     }
 
     onMessage (client: Client, message: any) {
@@ -129,18 +100,61 @@ export class MyRoom extends Room<State> {
                 if (players.every(player => player.goal || player.role === Role.Storyteller))
                 {
                     this.state.currentPhase = Phase.Playing;
+
                 }
+                break;
+            }
+
+            case "ACTION_SET": {
+                this.state.lastAction = message.data.action;
+                this.state.playingPhase = PlayingPhase.VoteOnAction
                 break;
             }
 
             case "DIFFICULTY_SET": {
                 player.lastActionDifficultyVote = message.data.difficulty;
+                if (Object.values(this.state.players).every(player => player.lastActionDifficultyVote || player.role === Role.Bill)) {
+                    const actionDifficultyTotal: number = players.filter(player => player.role !== Role.Bill)
+                        .map(player => player.lastActionDifficultyVote)
+                        .reduce((total, difficulty) => total! + difficulty!)!;
+
+                    const actionDifficulty: number = Math.round((actionDifficultyTotal/(players.length - 1)));
+                    this.state.actionDifficulty = actionDifficulty;
+
+                    this.state.playingPhase = PlayingPhase.RollOnAction;
+                }
+                break;
             }
 
             case "DICE_ROLL": {
                 this.state.diceRollResult = Math.floor(Math.random() * 6);
                 console.log(this.state.diceRollResult);
+
+                if (this.state.diceRollResult < this.state.actionDifficulty) {
+                    this.state.playingPhase = PlayingPhase.DisplayingFailedDiceRoll;
+                }
+                else {
+                    this.state.playingPhase = PlayingPhase.DisplayingSuccessfulDiceRoll;
+                }
                 break;
+            }
+
+            case "START_NEW_ROUND": {
+                if (this.state.playingPhase === PlayingPhase.DisplayingFailedDiceRoll) {
+                    this.changeCurrentBillNumber();
+                }
+                 
+                this.state.resetPlayingState();
+                for (let j = 0; j < players.length; j++) {
+                    this.state.players[players[j].id].lastActionDifficultyVote = undefined;
+                } //set all players last action difficulty vote back to undefined so the wait loop still works
+                this.state.playingPhase = PlayingPhase.ChooseAction;
+                break;
+            }
+            
+            case "BILL_HAS_WON": {
+                this.state.winningPlayer = this.playerOrder[this.currentBillNumber];
+                this.state.currentPhase = Phase.End;
             }
 
             default : {

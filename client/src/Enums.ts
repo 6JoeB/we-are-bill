@@ -8,11 +8,14 @@ export enum Phase {
     Lobby,
     StorytellerPick,
     GoalPick,
-    Playing
+    Playing,
+    End
 }
 
 export enum PlayingPhase {
     ChooseAction,
     VoteOnAction,
-    RollOnAction
+    RollOnAction,
+    DisplayingSuccessfulDiceRoll,
+    DisplayingFailedDiceRoll
 }

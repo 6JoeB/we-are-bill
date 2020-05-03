@@ -3,6 +3,7 @@ import Lobby from './Lobby';
 import Storyteller from './Storyteller';
 import GoalPick from './GoalPick';
 import Playing from './Playing';
+import End from './End';
 import Player from '../../server/models/PlayerModel';
 import { Client, Room } from "colyseus.js";
 import './App.css';
@@ -59,9 +60,11 @@ const App = () => {
             break;
 
         case Phase.Playing:
-            console.log(phase);
             content = <Playing players={players} room={room} currentPlayer={currentPlayer!}/>
             break;
+
+        case Phase.End:
+            content = <End room={room}/>
     }
 
     return <div className="App">{content}</div>

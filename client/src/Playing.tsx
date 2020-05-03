@@ -10,6 +10,8 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
     const handleActionSubmit = () => room.send ({ action: "ACTION_SET", data: {action}});
     const difficultyVote = (difficulty: number) => room.send ({ action: "DIFFICULTY_SET", data: {difficulty}});
     const diceRoll = () => room.send ({ action:"DICE_ROLL"});
+    const startNextRound = () => room.send ({action:"START_NEW_ROUND"});
+    const billHasWon = () => room.send ({ action:"BILL_HAS_WON"});
 
     return <>
         <h2>Playing</h2>
@@ -21,7 +23,7 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
                         <button onClick={handleActionSubmit}>Submit</button>
                     </> 
                 }
-                {(currentPlayer.role === Role.Standard || Role.Storyteller) &&
+                {currentPlayer.role !== Role.Bill &&
                     <>
                         <p>Bill is chosing his action.</p>
                     </>
@@ -36,7 +38,7 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
                         <p>Other players are now voting on the difficult of your action.</p>
                     </> 
                 }
-                {(currentPlayer.role === Role.Standard || Role.Storyteller) &&
+                {currentPlayer.role !== Role.Bill &&
                     <>
                         <p>Vote on the difficult of this action: </p>
                         <p>{room.state.lastAction}</p>
@@ -53,20 +55,47 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
         {room.state.playingPhase === PlayingPhase.RollOnAction &&
         <>
             {currentPlayer.role === Role.Bill &&
-                <>
+                <>  
+                    <p>The difficulty is: {room.state.actionDifficulty}</p>
                     <p>Roll the dice</p>
                     <button onClick={diceRoll}>Roll</button>
                    
                 </> 
             }
+        </>
+        }
 
-            <p>Dice roll result:</p>
-            {room.state.diceRollResult &&
+        {room.state.playingPhase === PlayingPhase.DisplayingSuccessfulDiceRoll &&
+            <>
+                <p>Dice roll result:</p>
                 <p>{room.state.diceRollResult}</p>
-            }
-        </>
-        } 
-        </>
-    };
+                {currentPlayer.role === Role.Bill &&
+                <>
+                    <p>Move on to the next round</p>
+                    <button onClick={startNextRound}>click</button>
+                </> 
+                }
+                {currentPlayer.role === Role.Storyteller &&
+                    <>
+                        <button onClick={billHasWon}>Bill has won</button>
+                    </>
+                }
+            </>
+        }
+
+        {room.state.playingPhase === PlayingPhase.DisplayingFailedDiceRoll &&
+            <>
+                <p>Dice roll result:</p>
+                <p>{room.state.diceRollResult}</p>
+                {currentPlayer.role === Role.Bill &&
+                <>
+                    <p>Move on to the next round</p>
+                    <button onClick={startNextRound}>click</button>
+                </> 
+                }
+            </>
+        }
+    </>
+};
 
 export default Playing;

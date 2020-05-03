@@ -14,8 +14,6 @@ class Player extends Schema {
     storytellerOptedIn: boolean | undefined;
     @type("string")
     goal: string | undefined;
-    @type("boolean")
-    hasWon: boolean = false;
     @type("int8")
     lastActionDifficultyVote: number | undefined;
 
