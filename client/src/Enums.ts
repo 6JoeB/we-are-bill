@@ -1,13 +1,14 @@
 export enum Role {
-    Standard,
-    Storyteller,
-    Bill
+    Standard = "Waiting for turn",
+    Storyteller = "Storyteller",
+    Bill = "Bill"
 }
 
 export enum Phase {
     Lobby,
     StorytellerPick,
     GoalPick,
+    StartingLocationPick,
     Playing,
     End
 }

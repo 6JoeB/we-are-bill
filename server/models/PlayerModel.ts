@@ -6,7 +6,7 @@ class Player extends Schema {
     id: string;
     @type("string")
     userName: string = "Jeremy";
-    @type("number")
+    @type("string")
     role: Role = Role.Standard;
     @type("boolean")
     ready: boolean = false;
@@ -16,6 +16,8 @@ class Player extends Schema {
     goal: string | undefined;
     @type("int8")
     lastActionDifficultyVote: number | undefined;
+    @type("string")
+    startingLocation: string = "";
 
     constructor(id: string) {
         super();

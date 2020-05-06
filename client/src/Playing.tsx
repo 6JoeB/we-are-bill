@@ -14,12 +14,16 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
     const billHasWon = () => room.send ({ action:"BILL_HAS_WON"});
 
     return <>
+        
         <h2>Playing</h2>
         {room.state.playingPhase === PlayingPhase.ChooseAction && 
             <>
+                {room.state.roundNumber === 1 &&
+                    <p>The starting location is {room.state.startingLocation}</p>
+                }
                 {currentPlayer.role === Role.Bill &&
                     <>
-                        <input placeholder="Enter your action here" value={action} onChange={handleActionChange}></input>
+                        <input placeholder="Enter your action here" value={action} onChange={handleActionChange}/>
                         <button onClick={handleActionSubmit}>Submit</button>
                     </> 
                 }
@@ -69,10 +73,9 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
             <>
                 <p>Dice roll result:</p>
                 <p>{room.state.diceRollResult}</p>
-                {currentPlayer.role === Role.Bill &&
+                {currentPlayer.role === Role.Storyteller &&
                 <>
-                    <p>Move on to the next round</p>
-                    <button onClick={startNextRound}>click</button>
+                    <button onClick={startNextRound}>Click to the next round</button>
                 </> 
                 }
                 {currentPlayer.role === Role.Storyteller &&
@@ -87,10 +90,9 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
             <>
                 <p>Dice roll result:</p>
                 <p>{room.state.diceRollResult}</p>
-                {currentPlayer.role === Role.Bill &&
+                {currentPlayer.role === Role.Storyteller &&
                 <>
-                    <p>Move on to the next round</p>
-                    <button onClick={startNextRound}>click</button>
+                    <button onClick={startNextRound}>Click to the next round</button>
                 </> 
                 }
             </>

@@ -8,7 +8,8 @@ import Player from '../../server/models/PlayerModel';
 import { Client, Room } from "colyseus.js";
 import './App.css';
 import State from "../../server/models/StateModel"
-import { Phase } from "./Enums";
+import { Phase, Role } from "./Enums";
+import StartingLocationPick from './StartingLocationPick';
 
 const App = () => {
     useEffect(() => {
@@ -59,15 +60,51 @@ const App = () => {
             content = <GoalPick players={players} room={room} currentPlayer={currentPlayer!}/>
             break;
 
+        case Phase.StartingLocationPick:
+            content = <StartingLocationPick room={room}/>
+            break;
+
         case Phase.Playing:
-            content = <Playing players={players} room={room} currentPlayer={currentPlayer!}/>
+            content = <>
+            <Playing players={players} room={room} currentPlayer={currentPlayer!}/>
+            {currentPlayer!.role === Role.Storyteller &&
+                    <>
+                        <p>Players goals: </p>
+                        <table>
+                            {players.filter(player => player.role !== Role.Storyteller).map(player =>
+                                <tr>
+                                    <td>{player.userName}</td>
+                                    <td>{player.goal}</td>
+                                </tr>
+                            )}
+                        </table>
+                    </>
+                }
+            </>
+            
             break;
 
         case Phase.End:
-            content = <End room={room}/>
+            content = <End players={players} room={room}/>
+            break;
     }
 
-    return <div className="App">{content}</div>
+    return <div className="App">
+        <nav>
+            <span>We Are Bill </span>
+            <span>Username: {currentPlayer?.userName} </span>
+            {room.state.currentPhase === Phase.Playing &&
+                <>
+                    <span>Current role: {currentPlayer?.role} </span>
+                    <span>End of game goal: {currentPlayer?.goal} </span>
+                    <span>Current round number: {room.state.roundNumber}</span>
+                </>
+            }
+            
+
+        </nav>
+        {content}
+    </div>
 };
 
 export default App;

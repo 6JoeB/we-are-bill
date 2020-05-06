@@ -11,9 +11,6 @@ export class MyRoom extends Room<State> {
         this.setState(new State());
         this.state.listen("currentPhase", async (value: Phase, previousValue: Phase) => {
             if (value === Phase.Playing) {
-                const locations: Array<string> = ["Mcdonalds", "The mean streets of Peterborough", "Makers Treehouse", "The Moon"];
-                this.state.startingLocation = locations[Math.floor(Math.random() * locations.length)];
-                console.log("current location is now " + this.state.startingLocation);
 
                 this.playerOrder = Object.values(this.state.players)
                 .filter(player => player.role != Role.Storyteller)
@@ -99,8 +96,23 @@ export class MyRoom extends Room<State> {
 
                 if (players.every(player => player.goal || player.role === Role.Storyteller))
                 {
-                    this.state.currentPhase = Phase.Playing;
+                    this.state.currentPhase = Phase.StartingLocationPick;
 
+                }
+                break;
+            }
+
+            case "STARTING_LOCATION_SET": {
+                player.startingLocation = message.data.location;
+
+                if (players.every(player => player.startingLocation !== ""))
+                {
+                    const locations: Array<string> = players.map(player => player.startingLocation);
+                    this.state.startingLocation = locations[Math.floor(Math.random() * locations.length)];
+                    console.log("current location is now " + this.state.startingLocation);
+
+                    this.state.currentPhase = Phase.Playing;
+                    this.state.playingPhase = PlayingPhase.ChooseAction; 
                 }
                 break;
             }
@@ -108,6 +120,7 @@ export class MyRoom extends Room<State> {
             case "ACTION_SET": {
                 this.state.lastAction = message.data.action;
                 this.state.playingPhase = PlayingPhase.VoteOnAction
+                console.log("i am setting the action");
                 break;
             }
 
@@ -143,7 +156,8 @@ export class MyRoom extends Room<State> {
                 if (this.state.playingPhase === PlayingPhase.DisplayingFailedDiceRoll) {
                     this.changeCurrentBillNumber();
                 }
-                 
+                
+                this.state.roundNumber ++;
                 this.state.resetPlayingState();
                 for (let j = 0; j < players.length; j++) {
                     this.state.players[players[j].id].lastActionDifficultyVote = undefined;

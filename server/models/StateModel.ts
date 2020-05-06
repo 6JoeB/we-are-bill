@@ -19,6 +19,8 @@ class State extends Schema {
     actionDifficulty: number = 0;
     @type("string")
     winningPlayer: string = "";
+    @type("number")
+    roundNumber: number = 1;
 
 
     resetPlayingState() {
