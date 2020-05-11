@@ -1,0 +1,50 @@
+:root {
+    --main-nav-background-colour: #DA5740;
+    --main-background-colour: #3E5161;
+    --border-colour: #F4D1AE;
+}
+
+.App {
+    height: 100vh;
+}
+
+.navbar {
+    height: 10vh;
+    border-bottom: 5px solid var(--border-colour);
+}
+
+.body {
+    height: 90vh;
+    padding: 20px;
+}
+
+.nav-background-colour {
+    background-color: var(--main-nav-background-colour);
+}
+
+.body-background {
+    background-color: var(--main-background-colour);
+}
+
+.footer-background {
+    background-color: var(--main-background-colour);
+    position: absolute;
+    bottom: 0;
+}
+
+.font-colour {
+    color: white ;
+}
+
+.nav-title {
+    font-size: xx-large;
+}
+
+.username {
+    font-size: medium;
+}
+
+#players {
+    text-align: center;
+    border: 3px solid white; 
+}

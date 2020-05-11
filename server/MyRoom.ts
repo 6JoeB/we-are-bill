@@ -140,7 +140,7 @@ export class MyRoom extends Room<State> {
             }
 
             case "DICE_ROLL": {
-                this.state.diceRollResult = Math.floor(Math.random() * 6);
+                this.state.diceRollResult = Math.floor(Math.random() * 5) + 1;
                 console.log(this.state.diceRollResult);
 
                 if (this.state.diceRollResult < this.state.actionDifficulty) {

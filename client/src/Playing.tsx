@@ -73,6 +73,7 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
             <>
                 <p>Dice roll result:</p>
                 <p>{room.state.diceRollResult}</p>
+                <p>Roll passed!</p>
                 {currentPlayer.role === Role.Storyteller &&
                 <>
                     <button onClick={startNextRound}>Click to the next round</button>
@@ -90,6 +91,7 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
             <>
                 <p>Dice roll result:</p>
                 <p>{room.state.diceRollResult}</p>
+                <p>Roll failed!</p>
                 {currentPlayer.role === Role.Storyteller &&
                 <>
                     <button onClick={startNextRound}>Click to the next round</button>

@@ -89,21 +89,34 @@ const App = () => {
             break;
     }
 
-    return <div className="App">
-        <nav>
-            <span>We Are Bill </span>
-            <span>Username: {currentPlayer?.userName} </span>
-            {room.state.currentPhase === Phase.Playing &&
-                <>
-                    <span>Current role: {currentPlayer?.role} </span>
-                    <span>End of game goal: {currentPlayer?.goal} </span>
-                    <span>Current round number: {room.state.roundNumber}</span>
-                </>
-            }
+    return <div className="App font-colour">
+        <nav className="navbar nav-background-colour">
+            <span className="nav-title">We Are Bill </span>
+            <span className="username">Username: {currentPlayer?.userName} </span>
+            
+        </nav>
+
+        <div className="body body-background">
+                {room.state.currentPhase === Phase.Playing &&
+                    <>
+                        <span>Round: {room.state.roundNumber}</span>
+                    </>
+                }
             
 
-        </nav>
-        {content}
+            {content}
+
+            <footer className="footer-background">
+                {room.state.currentPhase === Phase.Playing &&
+                    <>
+                        <span>Role: {currentPlayer?.role} </span>
+                        <span>Endgame goal: {currentPlayer?.goal} </span>
+                    </>
+                }
+            </footer>
+        </div>
+
+        
     </div>
 };
 
