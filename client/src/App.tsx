@@ -61,7 +61,7 @@ const App = () => {
             break;
 
         case Phase.StartingLocationPick:
-            content = <StartingLocationPick room={room}/>
+            content = <StartingLocationPick players={players} room={room}/>
             break;
 
         case Phase.Playing:
@@ -92,7 +92,7 @@ const App = () => {
     return <div className="App font-colour">
         <nav className="navbar nav-background-colour">
             <span className="nav-title">We Are Bill </span>
-            <span className="username">Username: {currentPlayer?.userName} </span>
+            <span className="username">{currentPlayer?.userName} </span>
             
         </nav>
 

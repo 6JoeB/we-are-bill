@@ -2,6 +2,11 @@
     --main-nav-background-colour: #DA5740;
     --main-background-colour: #3E5161;
     --border-colour: #F4D1AE;
+    --button-colour:  #DA5740;
+}
+
+body * {
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .App {
@@ -46,5 +51,24 @@
 
 #players {
     text-align: center;
-    border: 3px solid white; 
+    border: 3px solid white;
+}
+
+.player-list {
+    padding: 20px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.button-spacing {
+    margin-top: 10px;
+}
+
+.buttons {
+    padding: 5.1px;
+    height: 40px;
+    /* background-color: var(--button-colour); */
+    /* border: 3px solid var(--border-colour) */
 }

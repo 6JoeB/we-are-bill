@@ -13,41 +13,52 @@ const GoalPick  = ({players, room, currentPlayer}: {players: Player[], room: Roo
     
     {currentPlayer.role === Role.Storyteller &&
         <>
-            <h1>Players are currently entering their goals</h1>
-            <table>
-                {players.filter(player => player.role !== Role.Storyteller).map(player =>
-                    <tr>
-                        <td>{player.userName}</td>
-                        <td>{player.goal}</td>
-                    </tr>
-                )}
-            </table>
+            <h3>Players are currently entering their goals</h3>
+
+            <div className="col-12 player-list">
+                <table id="players" className="full-width" >
+                    {players.filter(player => player.role !== Role.Storyteller).map(player =>
+                        <tr>
+                            <td>{player.userName} wants to {player.goal ?? ".."}</td>
+                        </tr>
+                    )}
+                </table>
+            </div>
         </>
     }
     
     {currentPlayer.role !== Role.Storyteller &&
         <>
-            <h1>Players enter your goal:</h1>
-            <ul id="players">
-                {players.map(player => 
-                    <> 
-                        <p 
-                            style={{color: player.goal ? 'green' : 'black'}} 
-                            key={player.userName} 
-                            className="player-user-name"
-                        >
-                            {player.userName}
-                        </p>
-                    </>
-                )}
-            </ul>
+            <h3>Players enter your goal:</h3>
+
+            <div className="col-8 offset-2 player-list">
+                <table className="full-width" id="players">
+                    {players.filter(player => player.role !== Role.Storyteller).map(player => 
+                        <tr> 
+                            <td 
+                                style={{color: player.goal ? 'green' : 'red'}} 
+                                key={player.userName} 
+                                className="player-user-name"
+                            >
+                                {player.userName}
+                            </td>
+                        </tr>
+                    )}
+                </table>
+            </div>
+            
         </>
     }   
 
     {currentPlayer.role === Role.Standard && 
         <>
-            <input placeholder="Enter goal" value={goal} onChange={handleGoalChange}/>
-            <button onClick={handleGoalSubmit} disabled={!!currentPlayer.goal}>Submit</button>
+            <div className="col-12">
+                <input className="full-width buttons button-spacing" placeholder="Enter goal" value={goal} onChange={handleGoalChange}/>
+            </div>
+
+            <div className="col-12">
+                <button className="full-width buttons button-spacing" onClick={handleGoalSubmit} disabled={!!currentPlayer.goal}>Submit</button>
+            </div>
         </>
     }
     </>
