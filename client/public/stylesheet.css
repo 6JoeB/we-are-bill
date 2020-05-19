@@ -3,6 +3,7 @@
     --main-background-colour: #3E5161;
     --border-colour: #F4D1AE;
     --button-colour:  #DA5740;
+    --darker-body-background: #253243;
 }
 
 body * {
@@ -20,7 +21,7 @@ body * {
 
 .body {
     height: 90vh;
-    padding: 20px;
+    padding: 30px;
 }
 
 .nav-background-colour {
@@ -51,24 +52,53 @@ body * {
 
 #players {
     text-align: center;
-    border: 3px solid white;
+    border-spacing: 10px;
+    border-collapse: separate;
 }
 
 .player-list {
-    padding: 20px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    max-height: 50vh;
+    overflow-y: auto;
+    border: 3px solid rgb(214, 214, 214);
+    box-shadow: 5px 5px var(--darker-body-background);
+    background-color: rgba(37, 50, 67, 0.5);;
 }
+
 
 .full-width {
     width: 100%;
 }
 
 .button-spacing {
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .buttons {
     padding: 5.1px;
-    height: 40px;
-    /* background-color: var(--button-colour); */
-    /* border: 3px solid var(--border-colour) */
+    box-shadow: 5px 5px #253243;
+}
+
+.player-list-font-size {
+    font-size: 20px;
+}
+
+h3,h2 {
+    background-color: rgba(37, 50, 67, 0.5);
+    box-shadow: 5px 5px #192234;
+    padding: 10px;
+    display: inline-block;
+}
+
+.round-tracker {
+    position: absolute;
+    top: 80px;
+    right: 10px;
+}
+
+.goals-table {
+    text-align: center;
+    border-spacing: 10px;
+    border-collapse: separate;
 }

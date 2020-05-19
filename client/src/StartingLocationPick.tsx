@@ -12,26 +12,23 @@ const StartingLocationPick = ({players, room}: {players: Player[], room: Room<St
         <h3>Enter your starting location choice: </h3>
 
         <div className="col-12 player-list">
-            <table className="full-width" id="players">
+            <table className="full-width player-list-font-size" id="players">
                 {players.map(player => 
                     <tr> 
-                        <td 
-                            style={{color: player.startingLocation ? 'green' : 'red'}} 
-                            key={player.userName} 
-                            className="player-user-name"
-                        >
-                            {player.userName} wants to start at {player.startingLocation ?? ".."}
+                        <td>
+                            {player.userName}  
+                            {player.startingLocation === "" ? " ✍️" : ` wants to start at ${player.startingLocation}`}
                         </td>
                     </tr>
                 )}
             </table>
         </div>
 
-        <div className="col-12">
-            <input className="full-width buttons button-spacing" value={location} onChange={handleLocationChange}/>
+        <div className="col-12 player-list-font-size">
+            <input className="full-width buttons button-spacing" value={location} onChange={handleLocationChange} required/>
         </div>
 
-        <div className="col-12">
+        <div className="col-12 player-list-font-size">
             <button className="full-width buttons button-spacing" onClick={handleLocationSubmit}>Submit</button>
         </div>
     </>

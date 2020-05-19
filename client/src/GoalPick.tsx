@@ -16,7 +16,7 @@ const GoalPick  = ({players, room, currentPlayer}: {players: Player[], room: Roo
             <h3>Players are currently entering their goals</h3>
 
             <div className="col-12 player-list">
-                <table id="players" className="full-width" >
+                <table id="players" className="full-width player-list-font-size" >
                     {players.filter(player => player.role !== Role.Storyteller).map(player =>
                         <tr>
                             <td>{player.userName} wants to {player.goal ?? ".."}</td>
@@ -32,7 +32,7 @@ const GoalPick  = ({players, room, currentPlayer}: {players: Player[], room: Roo
             <h3>Players enter your goal:</h3>
 
             <div className="col-8 offset-2 player-list">
-                <table className="full-width" id="players">
+                <table className="full-width player-list-font-size" id="players">
                     {players.filter(player => player.role !== Role.Storyteller).map(player => 
                         <tr> 
                             <td 
@@ -52,14 +52,17 @@ const GoalPick  = ({players, room, currentPlayer}: {players: Player[], room: Roo
 
     {currentPlayer.role === Role.Standard && 
         <>
-            <div className="col-12">
-                <input className="full-width buttons button-spacing" placeholder="Enter goal" value={goal} onChange={handleGoalChange}/>
+        <form onSubmit={handleGoalSubmit}>
+            <div className="col-12 player-list-font-size">
+                <input className="full-width buttons button-spacing" placeholder="Enter goal" value={goal} onChange={handleGoalChange} type="text" required/>
             </div>
 
-            <div className="col-12">
-                <button className="full-width buttons button-spacing" onClick={handleGoalSubmit} disabled={!!currentPlayer.goal}>Submit</button>
+            <div className="col-12 player-list-font-size">
+                <button className="full-width buttons button-spacing" type="submit" disabled={!!currentPlayer.goal}>Submit</button>
             </div>
+        </form>
         </>
+        // onClick=
     }
     </>
 }

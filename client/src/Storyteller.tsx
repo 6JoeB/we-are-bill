@@ -13,26 +13,41 @@ const Storyteller  = ({players, room}: {players: Player[], room: Room<State>}) =
 
     <h3>Opt in to become the Storyteller</h3>
         <div className="col-8 offset-2 player-list">
-            <table className="full-width" id="players">
+            <table className="full-width player-list-font-size" id="players">
                 {players.map(player => 
                     <tr> 
-                        <td 
-                            style={{color: player.storytellerOptedIn ? 'green' : 'red'}} 
-                            key={player.userName} 
-                            className="player-user-name"
-                        >
+                        <td>
                             {player.userName}
+                        </td>
+
+                        <td>
+                            {player.storytellerOptedIn &&
+                                <>
+                                    👍
+                                </>
+                            }
+                            {player.storytellerOptedIn === false &&
+                                <>
+                                    👎
+                                </>
+                            }
+                            {player.storytellerOptedIn === undefined &&
+                                <>
+                                    🤔
+                                </>
+                            }
+
                         </td>
                     </tr>
                 )}
             </table>
         </div>
         
-        <div className="col-12">
+        <div className="col-12 player-list-font-size">
             <button className="full-width buttons button-spacing" onClick={optIn}>Yes</button>
         </div>
 
-        <div className="col-12">
+        <div className="col-12 player-list-font-size">
             <button className="full-width buttons button-spacing" onClick={optOut}>No</button>
         </div>
 

@@ -69,15 +69,18 @@ const App = () => {
             <Playing players={players} room={room} currentPlayer={currentPlayer!}/>
             {currentPlayer!.role === Role.Storyteller &&
                     <>
-                        <p>Players goals: </p>
-                        <table>
-                            {players.filter(player => player.role !== Role.Storyteller).map(player =>
-                                <tr>
-                                    <td>{player.userName}</td>
-                                    <td>{player.goal}</td>
-                                </tr>
-                            )}
-                        </table>
+                        <p className="player-list-font-size">Players goals: </p>
+                        <div className="col-10 offset-1 player-list">
+                            <table className="full-width player-list-font-size goals-table">
+                                {players.filter(player => player.role !== Role.Storyteller).map(player =>
+                                    <tr>
+                                        <td>{player.userName}</td>
+                                        <td>{player.goal}</td>
+                                    </tr>
+                                )}
+                            </table>
+                        </div>
+                        
                     </>
                 }
             </>
@@ -93,19 +96,18 @@ const App = () => {
         <nav className="navbar nav-background-colour">
             <span className="nav-title">We Are Bill </span>
             <span className="username">{currentPlayer?.userName} </span>
-            
         </nav>
 
+
         <div className="body body-background">
-                {room.state.currentPhase === Phase.Playing &&
-                    <>
-                        <span>Round: {room.state.roundNumber}</span>
-                    </>
-                }
-            
+            {room.state.currentPhase === Phase.Playing &&
+                <>
+                    <span className="round-tracker">Round {room.state.roundNumber}</span>
+                </>
+            }
 
             {content}
-
+            
             <footer className="footer-background">
                 {room.state.currentPhase === Phase.Playing &&
                     <>

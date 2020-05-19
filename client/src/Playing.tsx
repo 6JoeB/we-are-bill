@@ -19,18 +19,23 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
         {room.state.playingPhase === PlayingPhase.ChooseAction && 
             <>
                 {room.state.roundNumber === 1 &&
-                    <p>The starting location is {room.state.startingLocation}</p>
+                    <p className="player-list-font-size">The starting location is {room.state.startingLocation}</p>
                 }
                 {currentPlayer.role === Role.Bill &&
-                    <>
-                        <input placeholder="Enter your action here" value={action} onChange={handleActionChange}/>
-                        <button onClick={handleActionSubmit}>Submit</button>
-                    </> 
+                <>
+                    <div className="col-12 player-list-font-size">
+                        <input className="buttons button-spacing full-width" placeholder="Enter your action here" value={action} onChange={handleActionChange}/>
+                    </div>
+                
+                    <div className="col-12 player-list-font-size">
+                        <button className="buttons button-spacing full-width" onClick={handleActionSubmit}>Submit</button>
+                    </div>
+                </>
                 }
                 {currentPlayer.role !== Role.Bill &&
-                    <>
+                    <div className="player-list-font-size">
                         <p>Bill is chosing his action.</p>
-                    </>
+                    </div>
                 }
             </>
         }

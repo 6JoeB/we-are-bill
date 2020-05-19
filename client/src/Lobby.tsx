@@ -12,27 +12,35 @@ const Lobby = ({players, room}: {players: Player[], room: Room<State>}) => {
 
     return <div className="container-fluid">
         <h2>Lobby</h2>
-        <div className="col-8 offset-2 player-list">
-            <table className="full-width" id="players">
+        <div className="col-10 offset-1 player-list">
+            <table className="full-width player-list-font-size" id="players">
                 {players.map(player => 
                     <tr> 
-                        <td 
-                            style={{color: player.ready ? 'green' : 'red'}} 
-                            key={player.userName} 
-                            className="player-user-name"
-                        >
+                        <td>
                             {player.userName}
+                        </td>
+                        <td>
+                            {!player.ready &&
+                                <>
+                                    ❌
+                                </>
+                            } 
+                            {player.ready &&
+                                <>
+                                    ✅
+                                </>
+                            }   
                         </td>
                     </tr>
                 )}
             </table>
         </div>
         
-        <div className="col-12">
-            <input className="full-width buttons button-spacing" placeholder="Enter username" onChange={handleUsernameChange}/> 
+        <div className="col-12 player-list-font-size">
+            <input type="text" maxLength={16} className="full-width buttons button-spacing" placeholder="Enter username" onChange={handleUsernameChange}/> 
         </div>
         
-        <div className="col-12">
+        <div className="col-12 player-list-font-size">
             <button className="full-width buttons button-spacing" onClick={readyUp}>Submit</button>
         </div>
 
