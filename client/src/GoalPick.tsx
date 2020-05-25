@@ -7,7 +7,10 @@ import { Role } from './Enums';
 const GoalPick  = ({players, room, currentPlayer}: {players: Player[], room: Room<State>, currentPlayer: Player}) => {
     const [goal, setGoal] = useState <string>();
     const handleGoalChange = (event: React.ChangeEvent<HTMLInputElement>) => setGoal(event.target.value);
-    const handleGoalSubmit = () => room.send ({ action: "GOAL_SET", data: {goal} })
+    const handleGoalSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        room.send ({ action: "GOAL_SET", data: {goal} })
+    }
     
     return <>
     

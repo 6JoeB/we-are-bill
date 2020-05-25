@@ -70,19 +70,13 @@ const App = () => {
             <Playing players={players} room={room} currentPlayer={currentPlayer!}/>
             {currentPlayer!.role === Role.Storyteller &&
                     <>
-                        <p className="player-list-font-size">Players goals: </p>
                         <div className="col-10 offset-1 player-list">
                             <table className="full-width player-list-font-size goals-table">
-                                {players.filter(player => player.role !== Role.Storyteller).map(player => {
-                                    console.log(player);
-                                    return <tr>
-                                    
-                                    <td>{player.userName}</td>
-                                    <td>{player.goal}</td>
-                                </tr>
-                                }
-                                
-                                    
+                                <p className="player-list-font-size goals-list-title">Goals: </p>
+                                {players.filter(player => player.role !== Role.Storyteller).map(player => 
+                                    <tr>
+                                        <td>{player.userName} wants to {player.goal}</td>
+                                    </tr>
                                 )}
                             </table>
                         </div>
@@ -108,20 +102,25 @@ const App = () => {
         <div className="body body-background">
             {room.state.currentPhase === Phase.Playing &&
                 <>
+                    <span className="role-tracker">Role: {currentPlayer?.role} </span>
                     <span className="round-tracker">Round {room.state.roundNumber}</span>
+
+                    {currentPlayer?.role !== Role.Storyteller &&
+                        <footer className="footer-background">
+                            {room.state.currentPhase === Phase.Playing  &&
+                                <>
+                                    <span className="footer-text">Endgame goal is {currentPlayer?.goal} </span>
+                                </>
+                            }
+                        </footer>
+                    }
                 </>
             }
 
             {content}
+
             
-            <footer className="footer-background">
-                {room.state.currentPhase === Phase.Playing &&
-                    <>
-                        <span>Role: {currentPlayer?.role} </span>
-                        <span>Endgame goal: {currentPlayer?.goal} </span>
-                    </>
-                }
-            </footer>
+            
         </div>
 
         

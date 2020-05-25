@@ -18,9 +18,16 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
         <h2>Playing</h2>
         {room.state.playingPhase === PlayingPhase.ChooseAction && 
             <>
-                {room.state.roundNumber === 1 &&
-                    <p className="player-list-font-size">The starting location is {room.state.startingLocation}</p>
-                }
+                <div className="player-list-font-size playing-phase-info">
+                    {room.state.roundNumber === 1 &&
+                        <p className="starting-location">The starting location is {room.state.startingLocation}</p>
+                    }
+                    
+                    {currentPlayer.role !== Role.Bill &&
+                        <p>Bill is chosing his action.</p>
+                    }
+                </div>
+
                 {currentPlayer.role === Role.Bill &&
                 <>
                     <div className="col-12 player-list-font-size">
@@ -31,11 +38,6 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
                         <button className="buttons button-spacing full-width" onClick={handleActionSubmit}>Submit</button>
                     </div>
                 </>
-                }
-                {currentPlayer.role !== Role.Bill &&
-                    <div className="player-list-font-size">
-                        <p>Bill is chosing his action.</p>
-                    </div>
                 }
             </>
         }
