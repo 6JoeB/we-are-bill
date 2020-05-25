@@ -104,6 +104,7 @@ export class MyRoom extends Room<State> {
 
             case "STARTING_LOCATION_SET": {
                 player.startingLocation = message.data.location;
+                console.log(player.startingLocation);
 
                 if (players.every(player => player.startingLocation !== ""))
                 {

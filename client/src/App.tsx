@@ -30,6 +30,7 @@ const App = () => {
                 setPhase(state.currentPhase);
                 setCurrentPlayer(state.players[room.sessionId]);
                 console.log(`${room.sessionId} has a new state:`, state);
+                console.log()
             });
 
             setRoom(room);
@@ -72,11 +73,16 @@ const App = () => {
                         <p className="player-list-font-size">Players goals: </p>
                         <div className="col-10 offset-1 player-list">
                             <table className="full-width player-list-font-size goals-table">
-                                {players.filter(player => player.role !== Role.Storyteller).map(player =>
-                                    <tr>
-                                        <td>{player.userName}</td>
-                                        <td>{player.goal}</td>
-                                    </tr>
+                                {players.filter(player => player.role !== Role.Storyteller).map(player => {
+                                    console.log(player);
+                                    return <tr>
+                                    
+                                    <td>{player.userName}</td>
+                                    <td>{player.goal}</td>
+                                </tr>
+                                }
+                                
+                                    
                                 )}
                             </table>
                         </div>

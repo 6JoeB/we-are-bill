@@ -6,7 +6,10 @@ import State from '../../server/models/StateModel';
 const StartingLocationPick = ({players, room}: {players: Player[], room: Room<State>}) => {
     const [location, setLocation] = useState <string>();
     const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => setLocation(event.target.value);
-    const handleLocationSubmit = () => room.send ({ action: "STARTING_LOCATION_SET", data: {location} });
+    const handleLocationSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        room.send ({ action: "STARTING_LOCATION_SET", data: {location} });
+    }
 
     return <>
         <h3>Enter your starting location choice: </h3>
@@ -17,20 +20,22 @@ const StartingLocationPick = ({players, room}: {players: Player[], room: Room<St
                     <tr> 
                         <td>
                             {player.userName}  
-                            {player.startingLocation === "" ? " ✍️" : ` wants to start at ${player.startingLocation}`}
+                            {!player.startingLocation ? " ✍️" : ` wants to start at ${player.startingLocation}`}
                         </td>
                     </tr>
                 )}
             </table>
         </div>
 
-        <div className="col-12 player-list-font-size">
-            <input className="full-width buttons button-spacing" value={location} onChange={handleLocationChange} required/>
-        </div>
+        <form onSubmit={handleLocationSubmit}>
+            <div className="col-12 player-list-font-size">
+                <input className="full-width buttons button-spacing" value={location} onChange={handleLocationChange} required/>
+            </div>
 
-        <div className="col-12 player-list-font-size">
-            <button className="full-width buttons button-spacing" onClick={handleLocationSubmit}>Submit</button>
-        </div>
+            <div className="col-12 player-list-font-size">
+                <button type="submit" className="full-width buttons button-spacing">Submit</button>
+            </div>
+        </form>                
     </>
 }
 

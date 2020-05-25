@@ -52,17 +52,16 @@ const GoalPick  = ({players, room, currentPlayer}: {players: Player[], room: Roo
 
     {currentPlayer.role === Role.Standard && 
         <>
-        <form onSubmit={handleGoalSubmit}>
-            <div className="col-12 player-list-font-size">
-                <input className="full-width buttons button-spacing" placeholder="Enter goal" value={goal} onChange={handleGoalChange} type="text" required/>
-            </div>
+            <form onSubmit={handleGoalSubmit}>
+                <div className="col-12 player-list-font-size">
+                    <input className="full-width buttons button-spacing" placeholder="Enter goal" value={goal} onChange={handleGoalChange} type="text" required/>
+                </div>
 
-            <div className="col-12 player-list-font-size">
-                <button className="full-width buttons button-spacing" type="submit" disabled={!!currentPlayer.goal}>Submit</button>
-            </div>
-        </form>
+                <div className="col-12 player-list-font-size">
+                    <button className="full-width buttons button-spacing" type="submit" disabled={!!currentPlayer.goal}>Submit</button>
+                </div>
+            </form>
         </>
-        // onClick=
     }
     </>
 }
