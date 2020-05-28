@@ -70,9 +70,9 @@ const App = () => {
             <Playing players={players} room={room} currentPlayer={currentPlayer!}/>
             {currentPlayer!.role === Role.Storyteller &&
                     <>
-                        <div className="col-10 offset-1 player-list">
+                        <div className="col-10 offset-1 player-list bottom-anchored-and-centered">
                             <table className="full-width player-list-font-size goals-table">
-                                <p className="player-list-font-size goals-list-title">Goals: </p>
+                                <p className="goals-list-title">Goals: </p>
                                 {players.filter(player => player.role !== Role.Storyteller).map(player => 
                                     <tr>
                                         <td>{player.userName} wants to {player.goal}</td>
@@ -116,14 +116,8 @@ const App = () => {
                     }
                 </>
             }
-
             {content}
-
-            
-            
         </div>
-
-        
     </div>
 };
 

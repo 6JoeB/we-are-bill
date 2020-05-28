@@ -7,18 +7,16 @@ import { Role } from './Enums';
 const End = ({room, players}: {room: Room<State>, players: Player[]}) => {
 
     return <>
-        <p>After {room.state.roundNumber} rounds {players.find(player => player.id === room.state.winningPlayer)!.userName} has won!</p>
+        <p className="player-list-font-size">After {room.state.roundNumber} rounds {players.find(player => player.id === room.state.winningPlayer)!.userName} has won!</p>
 
-        <table>
+        <table className="full-width player-list-font-size goals-table">
             {players.filter(player => player.role !== Role.Storyteller).map(player =>
                 <tr>
-                    <td>{player.userName}</td>
-                    <td>{player.goal}</td>
+                    <td>{player.userName} wanted to {player.goal}</td>
                 </tr>
             )}
         </table>
     </>
-
 }
 
 export default End;

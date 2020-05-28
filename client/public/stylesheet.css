@@ -1,10 +1,10 @@
 :root {
-    --main-nav-background-colour: #DA5740;
-    --main-background-colour: #3E5161;
-    --border-colour: #F4D1AE;
-    --button-colour:  #DA5740;
-    --darker-body-background: #253243;
-    --darker-main-background-with-opacity: rgba(37, 50, 67, 0.5);
+    --fire-opal: #DA5740;
+    --charcoal: #3E5161;
+    --dark-electric-blue: #587389;
+    --light-orange: #F4D1AE;
+    --darker-charcoal: #192234;
+    --opace-darker-charcoal: rgba(37, 50, 67, 0.5);
 }
 
 body * {
@@ -17,24 +17,24 @@ body * {
 
 .navbar {
     height: 10vh;
-    border-bottom: 5px solid var(--border-colour);
+    border-bottom: 5px solid var(--light-orange);
 }
 
 .body {
     height: 90vh;
-    padding: 30px;
+    padding: 25px;
 }
 
 .nav-background-colour {
-    background-color: var(--main-nav-background-colour);
+    background-color: var(--fire-opal);
 }
 
 .body-background {
-    background-color: var(--main-background-colour);
+    background-color: var(--charcoal);
 }
 
 .footer-background {
-    background-color: var(--darker-main-background-with-opacity);
+    background-color: var(--opace-darker-charcoal);
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -66,9 +66,9 @@ body * {
     margin-bottom: 10px;
     max-height: 50vh;
     overflow-y: auto;
-    border: 3px solid rgb(214, 214, 214);
-    box-shadow: 5px 5px var(--darker-body-background);
-    background-color: var(--darker-main-background-with-opacity);
+    border: 3px solid white;
+    box-shadow: 5px 5px var(--darker-charcoal);
+    background-color: var(--opace-darker-charcoal);
 }
 
 
@@ -82,7 +82,7 @@ body * {
 
 .buttons {
     padding: 5.1px;
-    box-shadow: 5px 5px #253243;
+    box-shadow: 5px 5px var(--darker-charcoal);
 }
 
 .player-list-font-size {
@@ -90,23 +90,23 @@ body * {
 }
 
 h3,h2 {
-    background-color: var(--darker-main-background-with-opacity);
-    box-shadow: 5px 5px #192234;
+    background-color: var(--opace-darker-charcoal);
+    box-shadow: 5px 5px var(--darker-charcoal);
     padding: 10px;
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 26px;
 }
 
 .round-tracker {
     position: absolute;
-    top: 10vh;
+    top: 11vh;
     right: 10px;
     padding-top: 5px;
 }
 
 .role-tracker {
     position: absolute;
-    top: 10vh;
+    top: 11vh;
     left: 10px;
     padding-top: 5px;
 }
@@ -121,6 +121,10 @@ h3,h2 {
     padding-top: 10px;
 }
 
+.padding-top-15 {
+    padding-top: 15px
+}
+
 .goals-list-title {
     margin-bottom: 0px;
     font-weight: bold;
@@ -131,6 +135,57 @@ h3,h2 {
     margin: auto;
 }
 
-.starting-location {
+.margin-top-16 {
     margin-top: 16px;
+}
+
+.playing-text-spacing {
+    margin-top: 20px;
+}
+
+.margin-top-30 {
+    margin-top: 30px;
+}
+
+.margin-bottom-0 {
+    margin-bottom: 0 !important;
+}
+
+.single-number-button {
+    background-color: var(--opace-darker-charcoal);
+    box-shadow: 5px 5px var(--darker-charcoal);
+    padding: 7px;
+    display: inline-block;
+    margin-right: 10px;
+    color: white;
+    border: 0;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    font-size: 29.7px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.roll-button {
+    box-shadow: 5px 5px var(--darker-charcoal);
+    padding: 7px;
+    padding-right: 7px;
+    padding-left: 7px;
+    display: inline-block;
+    margin-top: 10px;
+    border: 0;
+    font-size: 35px;
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.bottom-anchored-and-centered {
+    bottom: 20px;
+    position: absolute;
+    margin: auto !important;
+    right: 30px;
+}
+
+.selected-button {
+    background-color: var(--dark-electric-blue) !important;
 }
