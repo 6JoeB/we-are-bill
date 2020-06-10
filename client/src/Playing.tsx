@@ -4,12 +4,29 @@ import { Room } from "colyseus.js";
 import State from '../../server/models/StateModel';
 import { Role, PlayingPhase } from './Enums';
 
+class Dice {
+    static number = 0;
+
+    static nextNumber(setter: (integar: number) => any){
+        Dice.number++;
+        if (Dice.number > 6){
+            Dice.number = 1;
+        }
+        console.log(Dice.number);
+        setter(Dice.number);
+    }
+}
+
 const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<State>, currentPlayer: Player}) => {
     const [action, setAction] = useState <string>();
     const handleActionChange = (event: React.ChangeEvent<HTMLInputElement>) => setAction(event.target.value);
     const handleActionSubmit = () => room.send ({ action: "ACTION_SET", data: {action}});
     const difficultyVote = (difficulty: number) => room.send ({ action: "DIFFICULTY_SET", data: {difficulty}});
-    const diceRoll = () => room.send ({ action:"DICE_ROLL"});
+    const diceRoll = () => {
+        const animation = setInterval(Dice.nextNumber, 200, setDiceNumber);
+        setTimeout(() => {clearInterval(animation); room.send ({ action:"DICE_ROLL"});}, 3000);        
+    };
+    const [diceNumber, setDiceNumber] = useState <number>(5);
     const startNextRound = () => room.send ({action:"START_NEW_ROUND"});
     const billHasWon = () => room.send ({ action:"BILL_HAS_WON"});
 
@@ -67,7 +84,7 @@ const Playing = ({players, room, currentPlayer}: {players: Player[], room: Room<
             {currentPlayer.role === Role.Bill &&
                 <>  
                     <p className="padding-top-15">The difficulty is {room.state.actionDifficulty}</p>
-                    <button className="roll-button" onClick={diceRoll}>Roll</button>
+                    <img src={`/dice${diceNumber}.png`} className="roll-button" onClick={diceRoll}/>
                    
                 </> 
             }

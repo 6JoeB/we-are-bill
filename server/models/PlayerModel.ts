@@ -18,6 +18,8 @@ class Player extends Schema {
     lastActionDifficultyVote: number | undefined;
     @type("string")
     startingLocation: string = "";
+    @type("boolean")
+    votedToResetGame: boolean = false;
 
     constructor(id: string) {
         super();

@@ -21,6 +21,8 @@ class State extends Schema {
     winningPlayer: string = "";
     @type("number")
     roundNumber: number = 1;
+    @type("boolean")
+    resetGame: boolean = false;
 
 
     resetPlayingState() {

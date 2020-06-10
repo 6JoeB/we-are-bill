@@ -26,11 +26,13 @@ const App = () => {
             };
 
             room.onStateChange((state: State) => {
+                if (state.resetGame) {
+                    window.location.reload();
+                }
                 setPlayers(Object.values(state.players));
                 setPhase(state.currentPhase);
                 setCurrentPlayer(state.players[room.sessionId]);
                 console.log(`${room.sessionId} has a new state:`, state);
-                console.log()
             });
 
             setRoom(room);
@@ -40,7 +42,6 @@ const App = () => {
     }, []);
 
     const [room, setRoom] = useState<Room<State>>(new Room<State>(""));
-    
     const [players, setPlayers] = useState<Player[]>([]);
     const [phase, setPhase] = useState<Phase>(Phase.Lobby);
     const [currentPlayer, setCurrentPlayer] = useState<Player>();

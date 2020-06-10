@@ -170,6 +170,19 @@ export class MyRoom extends Room<State> {
             case "BILL_HAS_WON": {
                 this.state.winningPlayer = this.playerOrder[this.currentBillNumber];
                 this.state.currentPhase = Phase.End;
+                break;
+            }
+
+            case "RESET_GAME_VOTE": {
+                player.votedToResetGame = true;
+
+                if (players.every(player => player.votedToResetGame)) {
+                    
+                    this.setState(new State());
+                    this.state.triggerAll();
+                    this.state.resetGame = true;
+                }
+                break;
             }
 
             default : {
