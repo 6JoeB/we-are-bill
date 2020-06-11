@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Room } from "colyseus.js";
-import Player from '../../server/models/PlayerModel';
-import State from '../../server/models/StateModel';
+import Player from '../models/PlayerModel';
+import State from '../models/StateModel';
 
 const StartingLocationPick = ({players, room}: {players: Player[], room: Room<State>}) => {
     const [location, setLocation] = useState <string>();

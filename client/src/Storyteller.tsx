@@ -1,7 +1,7 @@
 import React from 'react';
-import Player from '../../server/models/PlayerModel';
+import Player from '../models/PlayerModel';
 import { Room } from "colyseus.js";
-import State from '../../server/models/StateModel';
+import State from '../models/StateModel';
 
 const Storyteller  = ({players, room}: {players: Player[], room: Room<State>}) => {
 

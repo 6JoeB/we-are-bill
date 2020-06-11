@@ -4,17 +4,19 @@ import Storyteller from './Storyteller';
 import GoalPick from './GoalPick';
 import Playing from './Playing';
 import End from './End';
-import Player from '../../server/models/PlayerModel';
+import Player from '../models/PlayerModel';
 import { Client, Room } from "colyseus.js";
 import './App.css';
-import State from "../../server/models/StateModel"
+import State from "../models/StateModel"
 import { Phase, Role } from "./Enums";
 import StartingLocationPick from './StartingLocationPick';
 
 const App = () => {
     useEffect(() => {
         async function asyncRoom() {
-            const client = new Client("ws://localhost:2567");
+            const client = new Client("wss://colyseus-server-dot-we-are-bill-280018.nw.r.appspot.com");
+            //gcloud https://colyseus-server-dot-we-are-bill-280018.nw.r.appspot.com
+            //local host ws://localhost:2567
             const room = await client.joinOrCreate<State>("my_room");
 
             room.state.players.onAdd = (player: Player, i) => {
