@@ -7,12 +7,12 @@
 # We Are Bill 
 
 ## Techstack
--Node.js
--React.js
--Colyseus
--Typescript
--HTML
--CSS/Bootstrap
+- Node.js
+- React.js
+- [Colyseus](https://colyseus.io/)
+- Typescript
+- HTML
+- CSS/Bootstrap
 
 ## Game Rules
 
