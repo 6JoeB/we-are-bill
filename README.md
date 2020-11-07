@@ -7,10 +7,10 @@
 # We Are Bill 
 
 ## Techstack
--Node.js 
+-Node.js
 -React.js
 -Colyseus
--Typescript 
+-Typescript
 -HTML
 -CSS/Bootstrap
 
