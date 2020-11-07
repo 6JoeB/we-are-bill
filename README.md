@@ -4,8 +4,15 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/6JoeB/we-are-bill?style=for-the-badge)
 ![Maintenance](https://img.shields.io/maintenance/yes/2019?style=for-the-badge)
 
-### We Are Bill 
+# We Are Bill 
 
+## Techstack
+-Node.js 
+-React.js
+-Colyseus
+-Typescript 
+-HTML
+-CSS/Bootstrap
 
 ## Game Rules
 
@@ -21,4 +28,5 @@ Now the game begins, Bill wakes up in *chosen location* and must choose an actio
 If the player successfully rolls the dice, their task is completed and they can continue attempting tasks.
 If the player fails the roll, Bill blacks out and the next player becomes Bill and can attempt to achieve their goal through action attempts.
 
+## How to run the application
 ### `npm start`
