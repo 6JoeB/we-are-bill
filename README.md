@@ -35,6 +35,7 @@ This process repeats until a player has achieved their goal and therefore wins t
 
 ## How to run the application
 
+- Clone this repository.
 - Change directory to the backend folder and run `npm start`.
 - Then change directory to the frontend folder and run `npm start`.
 - Now redirect to [http://localhost:3000/](http://localhost:3000/). Multiple players are required to play the game, for testing this can be simulated by loading multiple tabs.
