@@ -1,8 +1,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/6JoeB/we-are-bill?style=for-the-badge)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/6JoeB/we-are-bill?style=for-the-badge)
-![GitHub issues](https://img.shields.io/github/issues-raw/6JoeB/we-are-bill?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/6JoeB/we-are-bill?style=for-the-badge)
-![Maintenance](https://img.shields.io/maintenance/yes/2019?style=for-the-badge)
+![Maintenance](https://img.shields.io/maintenance/yes/2020?style=for-the-badge)
 
 # We Are Bill 
 Is a multiplayer web game based on story telling.
